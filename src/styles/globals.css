@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: 255 255 255;       /* #FFFFFF — blanco */
+  --color-surface: 255 255 255;  /* #FFFFFF */
+  --color-ink: 10 10 15;         /* #0A0A0F — negro */
+  --color-muted: 113 113 122;    /* #71717A */
+  --color-border: 244 212 230;   /* #F4D4E6 — borde rosado suave */
+  --color-brand: 16 185 129;     /* #10B981 — verde */
+  --color-pink: 236 72 153;      /* #EC4899 — rosa */
+
+  /* Pantalla de la calculadora: SIEMPRE oscura, sin importar el tema
+     claro/oscuro de la app (evita texto blanco sobre fondo blanco). */
+  --color-screen: 24 24 27;      /* #18181B */
+}
+
+.dark {
+  --color-bg: 5 5 8;              /* negro casi puro */
+  --color-surface: 17 17 22;      /* superficie oscura */
+  --color-ink: 250 245 248;       /* blanco cálido */
+  --color-muted: 161 161 170;
+  --color-border: 40 30 38;       /* borde oscuro con matiz rosado */
+  --color-brand: 52 211 153;      /* verde más claro para contraste en oscuro */
+  --color-pink: 244 114 182;      /* rosa más claro para contraste en oscuro */
+
+  --color-screen: 24 24 27;       /* misma pantalla oscura, no cambia con el tema */
+}
+
+* {
+  border-color: rgb(var(--color-border));
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-bg text-ink antialiased;
+  font-feature-settings: 'ss01' on, 'cv01' on;
+}
+
+/* Scrollbar discreto y coherente con el resto de la UI */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--color-border));
+  border-radius: 999px;
+  border: 2px solid rgb(var(--color-bg));
+}
+
+/* Foco visible accesible en toda la app */
+:focus-visible {
+  outline: 2px solid rgb(var(--color-brand));
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Slider nativo del formulario de ahorro/descuento, restyled */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: rgb(var(--color-border));
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgb(var(--color-brand));
+  border: 3px solid rgb(var(--color-surface));
+  box-shadow: 0 1px 4px rgb(15 23 42 / 0.25);
+  cursor: pointer;
+}
+input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgb(var(--color-brand));
+  border: 3px solid rgb(var(--color-surface));
+  cursor: pointer;
+}
