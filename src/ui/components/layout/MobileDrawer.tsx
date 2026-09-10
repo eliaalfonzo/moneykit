@@ -65,6 +65,8 @@ export function MobileDrawer({ open, onClose }: MobileDrawerProps) {
             </NavLink>
           ))}
         </nav>
+
+        <p className="mt-auto px-2 pt-4 text-[11px] text-muted/70">Desarrollado por Elia</p>
       </aside>
     </div>
   );

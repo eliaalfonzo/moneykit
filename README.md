@@ -12,7 +12,7 @@ No es un gestor de finanzas personales. No hay usuarios, no hay base de datos, n
 
 ### 🚀 Demo en línea
 
-<a href="ENLACE_DEMO">
+<a href="https://moneykit-six.vercel.app">
   <strong>💰 Ver MoneyKit en Vercel →</strong>
 </a>
 

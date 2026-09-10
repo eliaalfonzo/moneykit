@@ -37,6 +37,7 @@ export function Sidebar() {
       <p className="px-2 text-xs text-muted">
         Tasas de cambio referenciales. No constituye asesoría financiera.
       </p>
+      <p className="mt-2 px-2 text-[11px] text-muted/70">Desarrollado por Elia</p>
     </aside>
   );
 }

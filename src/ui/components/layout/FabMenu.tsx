@@ -13,7 +13,11 @@ export function FabMenu() {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed bottom-6 right-5 z-40 flex flex-col items-end gap-3 lg:hidden">
+    // pointer-events-none en el contenedor: así el rectángulo invisible que
+    // ocupan los 5 botones de herramientas (aunque estén con opacity-0 al
+    // estar cerrado) YA NO bloquea los toques de lo que hay debajo. Cada
+    // botón recupera el click por su cuenta con pointer-events-auto.
+    <div className="pointer-events-none fixed bottom-6 right-5 z-40 flex flex-col items-end gap-3 lg:hidden">
       {FAB_ITEMS.map(({ path, label, icon: Icon }, index) => (
         <button
           key={path}
@@ -28,7 +32,7 @@ export function FabMenu() {
           className={[
             'flex items-center gap-2.5 rounded-full border border-border bg-surface py-2.5 pl-4 pr-3 text-sm font-semibold text-ink shadow-soft-lg transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]',
             open
-              ? 'translate-y-0 scale-100 opacity-100'
+              ? 'pointer-events-auto translate-y-0 scale-100 opacity-100'
               : 'pointer-events-none translate-y-2 scale-90 opacity-0',
           ].join(' ')}
         >
@@ -50,7 +54,7 @@ export function FabMenu() {
         onClick={() => setOpen((current) => !current)}
         aria-label={open ? 'Cerrar herramientas' : 'Abrir herramientas'}
         aria-expanded={open}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-accent-500 text-white shadow-soft-xl transition-all duration-300 hover:brightness-105 active:scale-95"
+        className="pointer-events-auto flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-accent-500 text-white shadow-soft-xl transition-all duration-300 hover:brightness-105 active:scale-95"
       >
         <Plus className={`h-6 w-6 transition-transform duration-300 ${open ? 'rotate-45' : 'rotate-0'}`} />
       </button>
