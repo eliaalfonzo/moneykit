@@ -96,7 +96,7 @@ export function AdderPage() {
       <div>
         <h1 className="text-2xl font-extrabold tracking-tight text-ink">Sumadora</h1>
         <p className="mt-1 text-muted">
-          Anota cada monto que te vayan dictando y mira el total acumulado al instante, en la moneda que
+          Anota cada monto y mira el total acumulado al instante, en la moneda que
           necesites.
         </p>
       </div>
@@ -226,27 +226,61 @@ export function AdderPage() {
               </div>
             </div>
 
-            <ul className="flex max-h-56 flex-col gap-1 overflow-auto">
-              {entries.map((entry) => (
-                <li
-                  key={entry.id}
-                  className="flex items-center justify-between rounded-lg border border-border px-3 py-2 text-sm"
-                >
-                  <span className={`flex items-center gap-1.5 font-mono font-semibold ${entry.amount < 0 ? 'text-danger' : 'text-ink'}`}>
-                    <span className="text-base leading-none">{flagFor(sourceCurrency)}</span>
-                    {entry.amount > 0 ? '+' : ''}
-                    {Money.of(entry.amount, sourceCurrency).format()}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveEntry(entry.id)}
-                    aria-label="Quitar este monto"
-                    className="text-muted transition-colors hover:text-danger"
+            <ul className="flex max-h-72 flex-col gap-2 overflow-auto">
+              {entries.map((entry) => {
+                // Valor de cada monto anotado ya convertido a la otra
+                // moneda, para que se vea al lado sin tener que calcularlo
+                // aparte (p. ej. anota "5 USD" y aquí sale "≈ Bs 462,50").
+                const convertedEntryAmount = table
+                  ? (() => {
+                      const result = container.convertCurrency.execute(
+                        table,
+                        Math.abs(entry.amount),
+                        sourceCurrency,
+                        targetCurrency,
+                      );
+                      if (!result.ok) return null;
+                      return entry.amount < 0 ? -result.value.convertedAmount : result.value.convertedAmount;
+                    })()
+                  : null;
+
+                return (
+                  <li
+                    key={entry.id}
+                    className="flex items-center justify-between gap-3 rounded-lg border border-border px-3 py-2.5"
                   >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </button>
-                </li>
-              ))}
+                    <div className="flex flex-col gap-0.5">
+                      {/* Monto anotado: más grande y bien legible (pero un
+                          escalón por debajo del Total, para no competir con él). */}
+                      <span
+                        className={`flex items-center gap-2 font-mono text-2xl font-bold leading-tight ${
+                          entry.amount < 0 ? 'text-danger' : 'text-ink'
+                        }`}
+                      >
+                        <span className="text-xl leading-none">{flagFor(sourceCurrency)}</span>
+                        {entry.amount > 0 ? '+' : ''}
+                        {Money.of(entry.amount, sourceCurrency).format()}
+                      </span>
+
+                      {/* Su equivalente en la otra moneda, justo debajo. */}
+                      {convertedEntryAmount !== null && (
+                        <span className="flex items-center gap-1.5 pl-0.5 text-sm font-medium text-muted">
+                          <span className="text-sm leading-none">{flagFor(targetCurrency)}</span>≈{' '}
+                          {Money.of(convertedEntryAmount, targetCurrency).format()}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveEntry(entry.id)}
+                      aria-label="Quitar este monto"
+                      className="shrink-0 rounded-md p-1.5 text-muted transition-colors hover:bg-danger/10 hover:text-danger"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         )}
