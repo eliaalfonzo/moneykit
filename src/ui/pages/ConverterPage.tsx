@@ -34,9 +34,9 @@ export function ConverterPage() {
   const { table, status, errorMessage, refresh } = useExchangeRates();
   const { showToast } = useToast();
 
-  const [amount, setAmount] = useState('500');
-  const [from, setFrom] = useState('VES');
-  const [to, setTo] = useState('USD');
+  const [amount, setAmount] = useState('1');
+  const [from, setFrom] = useState('USD');
+  const [to, setTo] = useState('VES');
   const [, forceTick] = useState(0);
 
   // Refresca el texto "hace X minutos" cada 30s sin volver a pedir la API.

@@ -124,6 +124,7 @@ src/
 │   ├── discount/
 │   ├── savings/
 │   └── calculator/
+│   └── adder/                       # Sumadora: entradas anotadas + total
 │
 ├── infrastructure/                # Adaptadores concretos (detalles técnicos)
 │   ├── http/FetchExchangeRateApi.ts
@@ -143,7 +144,7 @@ src/
 ├── styles/globals.css             # Tokens de diseño (CSS vars) + estilos base
 ├── App.tsx                        # Definición de rutas
 └── main.tsx                       # Punto de entrada
-
+ 
 tests/core/                        # Pruebas unitarias del dominio (Vitest)
 ```
 

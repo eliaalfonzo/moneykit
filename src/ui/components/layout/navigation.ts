@@ -2,6 +2,7 @@ import {
   ArrowLeftRight,
   Calculator,
   LayoutDashboard,
+  ListPlus,
   Percent,
   PiggyBank,
   Tag,
@@ -18,6 +19,7 @@ export interface NavItem {
 export const NAV_ITEMS: readonly NavItem[] = [
   { path: '/', label: 'Inicio', icon: LayoutDashboard },
   { path: '/conversor', label: 'Conversor', icon: ArrowLeftRight },
+  { path: '/sumadora', label: 'Sumadora', icon: ListPlus },
   { path: '/porcentajes', label: 'Porcentajes', icon: Percent },
   { path: '/descuentos', label: 'Descuentos', icon: Tag },
   { path: '/ahorro', label: 'Ahorro', icon: PiggyBank },

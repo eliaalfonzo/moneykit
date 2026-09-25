@@ -1,6 +1,7 @@
 import { FetchExchangeRateApi } from '@infrastructure/http/FetchExchangeRateApi';
 import { LocalStorageRateCache } from '@infrastructure/storage/LocalStorageRateCache';
 import { LocalStorageCalculatorHistory } from '@infrastructure/storage/LocalStorageCalculatorHistory';
+import { LocalStorageAdderEntries } from '@infrastructure/storage/LocalStorageAdderEntries';
 
 import { RefreshExchangeRatesUseCase } from '@core/currency/application/RefreshExchangeRatesUseCase';
 import { ConvertCurrencyUseCase } from '@core/currency/application/ConvertCurrencyUseCase';
@@ -9,6 +10,8 @@ import { CalculateDiscountUseCase } from '@core/discount/application/CalculateDi
 import { CalculateSavingsPlanUseCase } from '@core/savings/application/CalculateSavingsPlanUseCase';
 import { CalculatorHistoryUseCase } from '@core/calculator/application/CalculatorHistoryUseCase';
 import { CalculatorEngine } from '@core/calculator/domain/CalculatorEngine';
+import { RecordAdderEntryUseCase } from '@core/adder/application/RecordAdderEntryUseCase';
+import { AdderSessionUseCase } from '@core/adder/application/AdderSessionUseCase';
 
 /**
  * Raíz de composición (composition root).
@@ -28,6 +31,7 @@ function buildContainer() {
   const exchangeRateApi = new FetchExchangeRateApi();
   const rateCache = new LocalStorageRateCache();
   const calculatorHistoryRepository = new LocalStorageCalculatorHistory();
+  const adderEntriesRepository = new LocalStorageAdderEntries();
 
   // --- Casos de uso (aplicación) ---
   const refreshExchangeRates = new RefreshExchangeRatesUseCase(exchangeRateApi, rateCache);
@@ -37,6 +41,8 @@ function buildContainer() {
   const calculateSavingsPlan = new CalculateSavingsPlanUseCase();
   const calculatorHistory = new CalculatorHistoryUseCase(calculatorHistoryRepository);
   const calculatorEngine = new CalculatorEngine();
+  const recordAdderEntry = new RecordAdderEntryUseCase();
+  const adderSession = new AdderSessionUseCase(adderEntriesRepository);
 
   return {
     refreshExchangeRates,
@@ -46,6 +52,8 @@ function buildContainer() {
     calculateSavingsPlan,
     calculatorHistory,
     calculatorEngine,
+    recordAdderEntry,
+    adderSession,
   };
 }
 
