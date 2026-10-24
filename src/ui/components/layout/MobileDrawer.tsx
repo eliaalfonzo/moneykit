@@ -65,8 +65,19 @@ export function MobileDrawer({ open, onClose }: MobileDrawerProps) {
             </NavLink>
           ))}
         </nav>
-
-        <p className="mt-auto px-2 pt-4 text-[11px] text-muted/70">Desarrollado por Elia</p>
+        
+        <p className="mt-auto px-2 pt-4 text-xs text-muted/80">
+          Desarrollado por{' '}
+          <a
+            href="https://github.com/eliaalfonzo"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visitar el perfil de GitHub de Elia"
+            className="font-semibold text-brand-500 transition-opacity duration-200 hover:opacity-75"
+          >
+            Elia
+          </a>
+        </p>
       </aside>
     </div>
   );
