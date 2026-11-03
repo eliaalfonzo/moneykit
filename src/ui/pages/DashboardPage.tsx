@@ -5,13 +5,10 @@ import { Skeleton } from '@ui/components/ui/Skeleton';
 import { StatusBanner } from '@ui/components/ui/StatusBanner';
 import { useExchangeRates } from '@ui/hooks/useExchangeRates';
 import { FAB_ITEMS } from '@ui/components/layout/navigation';
-import { formatNumber } from '@core/shared/Money';
+import { formatRate } from '@core/shared/Money';
 
 function greetingForNow(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return 'Buenos días';
-  if (hour < 19) return 'Buenas tardes';
-  return 'Buenas noches';
+  return '¡Hola!';
 }
 
 /** Pantalla de inicio tipo dashboard: saludo + accesos directos + pulso de tasas. */
@@ -35,7 +32,7 @@ export function DashboardPage() {
             <Skeleton className="mt-2 h-7 w-40" />
           ) : (
             <p className="mt-1 text-xl font-extrabold text-ink">
-              1 USD = {usdToVes ? formatNumber(usdToVes) : '—'} VES
+              1 USD = {usdToVes ? formatRate(usdToVes) : '—'} VES
             </p>
           )}
         </div>
@@ -60,11 +57,10 @@ export function DashboardPage() {
           <Link key={path} to={path}>
             <Card hoverable className="flex h-full flex-col items-center gap-3 py-7 text-center">
               <span
-                className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
-                  index % 2 === 0
+                className={`flex h-12 w-12 items-center justify-center rounded-2xl ${index % 2 === 0
                     ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400'
                     : 'bg-accent-50 text-accent-600 dark:bg-accent-500/15 dark:text-accent-400'
-                }`}
+                  }`}
               >
                 <Icon className="h-6 w-6" />
               </span>

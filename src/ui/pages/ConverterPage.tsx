@@ -10,7 +10,7 @@ import { useToast } from '@ui/context/ToastContext';
 import { container } from '@composition/container';
 import { SUPPORTED_CURRENCIES } from '@core/currency/domain/Currency';
 import { crossRate } from '@core/currency/domain/ExchangeRate';
-import { formatNumber } from '@core/shared/Money';
+import { formatNumber, formatRate } from '@core/shared/Money';
 
 const CURRENCY_OPTIONS = SUPPORTED_CURRENCIES.map((currency) => ({
   value: currency.code,
@@ -71,7 +71,7 @@ export function ConverterPage() {
 
   async function handleCopy() {
     if (conversion === null) return;
-    await navigator.clipboard.writeText(formatNumber(conversion.convertedAmount));
+    await navigator.clipboard.writeText(formatNumber(conversion.convertedAmount, 4));
     showToast('Resultado copiado', 'success');
   }
 
@@ -114,7 +114,7 @@ export function ConverterPage() {
           ) : conversion ? (
             <div key={`${conversion.convertedAmount}-${to}`} className="animate-fade-slide-up">
               <p className="flex items-baseline gap-2 text-3xl font-extrabold text-ink">
-                {formatNumber(conversion.convertedAmount)}
+                {formatNumber(conversion.convertedAmount, 4)}
                 <span className="text-lg font-bold text-muted">{to}</span>
               </p>
               <button
@@ -134,7 +134,7 @@ export function ConverterPage() {
         {table && (
           <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
             <span>
-              1 {from} = {formatNumber(unitRate ?? 0, 6)} {to} · Actualizado {formatRelativeTime(table.fetchedAt)}
+              1 {from} = {formatRate(unitRate ?? 0)} {to} · Actualizado {formatRelativeTime(table.fetchedAt)}
             </span>
             <button
               type="button"

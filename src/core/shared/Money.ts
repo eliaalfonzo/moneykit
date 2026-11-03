@@ -4,7 +4,7 @@
  * y centraliza el formateo en un único lugar (SRP).
  */
 export class Money {
-  private constructor(private readonly amount: number, private readonly currency: string) {}
+  private constructor(private readonly amount: number, private readonly currency: string) { }
 
   static of(amount: number, currency: string): Money {
     if (!Number.isFinite(amount)) {
@@ -48,5 +48,17 @@ export function formatNumber(value: number, maximumFractionDigits = 2): string {
   return new Intl.NumberFormat('es-VE', {
     maximumFractionDigits,
     minimumFractionDigits: 0,
+  }).format(value);
+}
+
+/**
+ * Formatea una TASA DE CAMBIO sin redondearla: muestra el valor tal cual
+ * llega (mínimo 4 decimales, p. ej. 92,2500 o 92,2531). Se usa solo para
+ * tasas; los montos de dinero siguen mostrándose con 2 decimales.
+ */
+export function formatRate(value: number): string {
+  return new Intl.NumberFormat('es-VE', {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 20,
   }).format(value);
 }
