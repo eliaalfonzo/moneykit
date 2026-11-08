@@ -2,6 +2,8 @@ import { FetchExchangeRateApi } from '@infrastructure/http/FetchExchangeRateApi'
 import { LocalStorageRateCache } from '@infrastructure/storage/LocalStorageRateCache';
 import { LocalStorageCalculatorHistory } from '@infrastructure/storage/LocalStorageCalculatorHistory';
 import { LocalStorageAdderEntries } from '@infrastructure/storage/LocalStorageAdderEntries';
+import { FetchBcvHistoryApi } from '@infrastructure/http/FetchBcvHistoryApi';
+import { LocalStorageRateHistoryCache } from '@infrastructure/storage/LocalStorageRateHistoryCache';
 
 import { RefreshExchangeRatesUseCase } from '@core/currency/application/RefreshExchangeRatesUseCase';
 import { ConvertCurrencyUseCase } from '@core/currency/application/ConvertCurrencyUseCase';
@@ -12,6 +14,8 @@ import { CalculatorHistoryUseCase } from '@core/calculator/application/Calculato
 import { CalculatorEngine } from '@core/calculator/domain/CalculatorEngine';
 import { RecordAdderEntryUseCase } from '@core/adder/application/RecordAdderEntryUseCase';
 import { AdderSessionUseCase } from '@core/adder/application/AdderSessionUseCase';
+import { GetRecentRateHistoryUseCase } from '@core/ratehistory/application/GetRecentRateHistoryUseCase';
+import { SystemDateProvider } from '@core/shared/DateProvider';
 
 /**
  * Raíz de composición (composition root).
@@ -43,6 +47,11 @@ function buildContainer() {
   const calculatorEngine = new CalculatorEngine();
   const recordAdderEntry = new RecordAdderEntryUseCase();
   const adderSession = new AdderSessionUseCase(adderEntriesRepository);
+  const getRecentRateHistory = new GetRecentRateHistoryUseCase(
+    new FetchBcvHistoryApi(),
+    new LocalStorageRateHistoryCache(),
+    new SystemDateProvider(),
+  );
 
   return {
     refreshExchangeRates,
@@ -54,6 +63,7 @@ function buildContainer() {
     calculatorEngine,
     recordAdderEntry,
     adderSession,
+    getRecentRateHistory,
   };
 }
 
